@@ -1,12 +1,8 @@
-import React,{useState} from 'react';
+import React from 'react';
 import './App.css';
-// import WinboxReact from 'winbox-react'
-import 'winbox-react/dist/index.css'
-import { useSelector, Provider } from 'react-redux';
-import store from "./store/store"
-import 'winbox';
-import ReactDOM from "react-dom"
+import { useSelector} from 'react-redux';
 
+import WinboxWrapper from "./Winbox"
 
 const Component2 = () =>{
   const {data} = useSelector(status=>status)
@@ -14,40 +10,59 @@ const Component2 = () =>{
 }
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      comp1:false,
+      comp2:false,
+      comp3:false
+    }
+  }
+
   componentDidMount() {
-    /**
-     * @description you need to do these things 
-     */
-    var div = document.createElement('div');
-    ReactDOM.render(<Provider store={store}>
-      <Component2 />
-      </Provider>, div );
-    /**
-     * @description you can use any one  winbox-react or only WinBox 
-     * he is already using a wrapper component
-     */
-    window.WinBox.new({
-      mount:div
-    });
+    
   }
 
   componentWillUnmount() {
     // this.$el.somePlugin('destroy');
   }
 
+  firstVisible1 = () =>this.setState({...this.state,comp1:true})
+  firstVisible2 = () =>this.setState({...this.state,comp1:true})
+  firstVisible3 = () =>this.setState({...this.state,comp1:true})
+  closeFire = (e) =>{
+    console.log(e);
+  }
+
   render() {
-    return <div>data</div>
+     
+    return <div>
+          data
+          <WinboxWrapper title="anuj" id="anuj_1" isvisible={this.state.comp1} closeHelper={this.closeFire}>
+            <Component2 />
+          </WinboxWrapper>
+          <WinboxWrapper title="anuj" id="anuj_2" isvisible={this.state.comp2}>
+            <Component2 />
+          </WinboxWrapper>
+          <WinboxWrapper title="anuj" id="anuj_3" isvisible={this.state.comp2}>
+            <Component2 />
+          </WinboxWrapper>
+          <button onClick={this.firstVisible1}>
+            winbox 1
+          </button>
+          <button onClick={this.firstVisible2}>
+            winbox 2
+          </button>
+          <button onClick={this.firstVisible3}>
+            winbox 3
+          </button>
+      </div>
   }
 }
 
 export default App;
 
-// const WinBoxComponent = ({id,title, compHtml}) =>{
-//   window.WinBox.new({
-//       mount:div
-//     });
 
-// }
 
 
 

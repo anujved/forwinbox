@@ -76,6 +76,6 @@ code {
 .wb-full {
   display: none;
 }
-#winbox-1{
+.winbox{
   min-height:200px !important;
 }
