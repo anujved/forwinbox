@@ -1,7 +1,5 @@
 import React from 'react';
-import './App.css';
 import { useSelector} from 'react-redux';
-
 import WinboxWrapper from "./Winbox"
 
 const Component2 = () =>{
