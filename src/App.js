@@ -46,9 +46,9 @@ class App extends React.Component {
       <WinboxProvider>
         <div>
           data
-          <Button handler={this.firstVisible1}>winbox 1</Button>
-          <Button handler={this.firstVisible2}>winbox 2</Button>
-          <Button handler={this.firstVisible3}>winbox 3</Button>
+          <Button>winbox 1</Button>
+          <Button>winbox 2</Button>
+          <Button>winbox 3</Button>
         </div>
       </WinboxProvider>
     );
