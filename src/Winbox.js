@@ -1,50 +1,75 @@
-import React, { useEffect } from "react";
+import React, { useEffect, createContext } from "react";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import "winbox";
 import ReactDOM from "react-dom";
 
-const WinboxWrapper = ({
+const WinboxContext = createContext();
+const callWinBox = function ({
   title,
   id,
-  children,
-  isvisible,
+  div,
   closeHelper,
   moveHelper,
   focusHelper,
   blurHelper,
-  resizeHelper
-}) => {
-  useEffect(() => {
-    if (isvisible) {
-      var div = document.createElement("div");
-      ReactDOM.render(<Provider store={store}>{children}</Provider>, div);
-      const winbox = window.WinBox.new({
-        id: "my-window",
-        class: ["no-full", "my-theme"],
-        root: document.body,
-        title: "All Options",
-        background: "#fff",
-        border: 4,
-        x: "center",
-        y: "center",
-        max: false,
-        splitscreen: true,
-        top: 50,
-        right: 50,
-        bottom: 0,
-        left: 50,
-        mount: div,
-        onfocus: focusHelper,
-        onblur: blurHelper,
-        onresize: resizeHelper,
-        onmove: moveHelper,
-        onclose: closeHelper,
-      });
-      winbox.resize("50%", "50%").move("center", "center");
-    }
-  }, [title, id, children, isvisible]);
-
-  return null;
+  resizeHelper,
+}) {
+  return window.WinBox.new({
+    id: "my-window",
+    class: ["no-full", "my-theme"],
+    root: document.body,
+    title: "All Options",
+    background: "#fff",
+    border: 4,
+    x: "center",
+    y: "center",
+    max: false,
+    splitscreen: true,
+    top: 50,
+    right: 50,
+    bottom: 0,
+    left: 50,
+    mount: div,
+    onfocus: focusHelper,
+    onblur: blurHelper,
+    onresize: resizeHelper,
+    onmove: moveHelper,
+    onclose: closeHelper,
+  });
 };
-export default WinboxWrapper;
+
+const WinboxProvider = ({ children }) => {
+  const CallWinBox = ({
+    title,
+    id,
+    childComp,
+    closeHelper,
+    moveHelper,
+    focusHelper,
+    blurHelper,
+    resizeHelper,
+  }) => {
+    var div = document.createElement("div");
+    ReactDOM.render(<Provider store={store}>{childComp}</Provider>, div);
+    callWinBox({
+      title,
+      id,
+      div,
+      closeHelper,
+      moveHelper,
+      focusHelper,
+      blurHelper,
+      resizeHelper,
+    })
+      .resize("50%", "50%")
+      .move("center", "center");
+  };
+
+  return (
+    <WinboxContext.Provider value={{ CallWinBox }}>
+      {children}
+    </WinboxContext.Provider>
+  );
+};
+export  {WinboxContext, WinboxProvider};
